@@ -1,6 +1,8 @@
+Python
 __import__('pysqlite3')
 import sys
 sys.modules['sqlite3'] = sys.modules.pop('pysqlite3')
+
 import os
 import tempfile
 import streamlit as st
@@ -16,14 +18,14 @@ from langchain_core.prompts import ChatPromptTemplate
 st.set_page_config(page_title="Local Privacy RAG", page_icon="🔒")
 st.title("🔒 Local Privacy RAG App")
 
-# 1. Initialize Embeddings (HuggingFace runs locally on the cloud server)
+# 1. Initialize Embeddings (HuggingFace runs locally on cloud server CPU)
 @st.cache_resource
 def load_embeddings():
     return HuggingFaceEmbeddings(model_name="sentence-transformers/all-MiniLM-L6-v2")
 
 embeddings = load_embeddings()
 
-# 2. Retrieve Groq API Key from Streamlit Secrets or Environment
+# 2. Retrieve Groq API Key
 groq_api_key = st.secrets.get("GROQ_API_KEY", os.environ.get("GROQ_API_KEY"))
 
 if not groq_api_key:
@@ -36,7 +38,7 @@ llm = ChatGroq(
     temperature=0
 )
 
-# 3. File Upload & Processing
+# 3. Sidebar Upload
 uploaded_file = st.sidebar.file_uploader("Upload a PDF document", type=["pdf"])
 
 if uploaded_file:
@@ -59,7 +61,6 @@ if uploaded_file:
 
         os.remove(tmp_path)
 
-    # 4. Prompt and RAG Chain Setup
     system_prompt = (
         "You are an assistant for querying uploaded documents.\n"
         "Use ONLY the following pieces of retrieved context to answer the question.\n"
@@ -76,7 +77,6 @@ if uploaded_file:
     question_answer_chain = create_stuff_documents_chain(llm, prompt)
     rag_chain = create_retrieval_chain(retriever, question_answer_chain)
 
-    # 5. Chat Interface
     if "messages" not in st.session_state:
         st.session_state.messages = []
 
