@@ -1,0 +1,2 @@
+langchain-huggingface  sentence-transformers  add requirements.txtgit commit -m "add sentence transformers for cloud embeddings"git push origin main
+langchain-groq  langchain-huggingface  sentence-transformers  add .git commit -m "fix: update app.py with valid chains and cloud-compatible LLM"git push origin main

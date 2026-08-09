@@ -5,3 +5,4 @@ langchain-chroma
 langchain-ollama 
 pypdf 
 chromadb 
+langchain-groq  langchain-huggingface  sentence-transformers 
