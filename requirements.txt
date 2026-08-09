@@ -6,3 +6,4 @@ langchain-ollama
 pypdf 
 chromadb 
 langchain-groq  langchain-huggingface  sentence-transformers 
+streamlit  langchain  langchain-community  langchain-chroma  langchain-groq  langchain-huggingface  sentence-transformers  pypdf  chromadb  pysqlite3-binary 
